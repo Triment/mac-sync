@@ -1,0 +1,37 @@
+[package]
+name = "syncmac"
+version = "0.1.0"
+description = "宿舍网络 MAC 地址同步管理客户端"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name on
+# cargo fmt about them being generated without the `lib` suffix, but
+# if you know what you do and are aware of the implications you can
+# drop the underscore.
+name = "syncmac_lib"
+
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+reqwest = { version = "0.12", features = ["multipart"] }
+encoding_rs = "0.8"
+regex-lite = "0.1"
+chrono = { version = "0.4", features = ["serde"] }
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
